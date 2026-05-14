@@ -9,6 +9,9 @@ const links = [
   { to: "/admin/teachers", label: "Teachers", icon: Users },
   { to: "/admin/courses", label: "Courses", icon: BookOpen },
   { to: "/admin/users", label: "Subscribers", icon: Shield },
+  { to: "/admin/support", label: "Support", icon: MessageSquare },
+  { to: "/admin/design-sync", label: "Design Sync", icon: Columns2 },
+];
 
 const AdminLayout = () => {
   const { signOut, user } = useAuth();
