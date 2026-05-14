@@ -42,8 +42,8 @@ const ContactSection = () => {
     <section id="contact" className="py-16 md:py-24">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-3 mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            Կապ <span className="text-primary">մեզ հետ</span>
+          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight">
+            Կապ <span className="text-accent-lime">մեզ հետ</span>
           </h2>
           <p className="text-sm text-muted-foreground">
             Թողեք Ձեր տվյալները և մենք կկապվենք Ձեզ հետ

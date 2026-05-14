@@ -14,8 +14,8 @@ const TeamSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-12 items-start">
           <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Մեր <span className="text-primary">թիմը</span>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight">
+              Մեր <span className="text-accent-lime">թիմը</span>
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
               Փորձառու դասախոսներ, որոնք գիտեն թե ինչպես փոխանցել գիտելիքները։

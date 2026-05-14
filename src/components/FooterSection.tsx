@@ -1,54 +1,48 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ArrowRight } from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react";
 
 const FooterSection = () => {
   return (
-    <footer id="contact" className="py-16 md:py-20 border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold mb-10">
-          Кap <span className="text-primary">Мez Нет</span>
-        </h2>
+    <footer className="border-t border-border bg-secondary/40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="grid md:grid-cols-3 gap-10 mb-10">
+          <div className="space-y-3">
+            <h4 className="font-semibold text-sm uppercase tracking-wider">Կոնտակտային ինֆորմացիա</h4>
+            <div className="flex items-start gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
+              <p>Nova Plaza, Sayat Nova 19/1, Yerevan, Armenia</p>
+            </div>
+          </div>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-          <div>
-            <label className="text-xs text-muted-foreground block mb-2">Аnun Аzganun</label>
-            <Input className="border-border rounded-md" />
+          <div className="space-y-3">
+            <h4 className="font-semibold text-sm uppercase tracking-wider">Էլ. հասցե</h4>
+            <a href="mailto:support@omnidx.academy" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+              <Mail className="h-4 w-4" /> support@omnidx.academy
+            </a>
+            <p className="text-xs text-muted-foreground">Աշխատանքային ժամեր՝ <span className="text-foreground font-medium">Աշխատում 24/7</span></p>
           </div>
-          <div>
-            <label className="text-xs text-muted-foreground block mb-2">Эl.hasaste</label>
-            <Input className="border-border rounded-md" />
-          </div>
-          <div>
-            <label className="text-xs text-muted-foreground block mb-2">Нerratsahhamar</label>
-            <Input className="border-border rounded-md" />
-          </div>
-          <div>
-            <label className="text-xs text-muted-foreground block mb-2">Зer namanakе</label>
-            <Input className="border-border rounded-md" />
+
+          <div className="space-y-3">
+            <h4 className="font-semibold text-sm uppercase tracking-wider">Հեռախոս</h4>
+            <a href="tel:+37494963903" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+              <Phone className="h-4 w-4" /> (094) 96 39 03
+            </a>
+            <div className="flex gap-2 pt-1">
+              <a href="#" aria-label="Facebook" className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-accent-lime hover:border-accent transition-colors">
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-accent-lime hover:border-accent transition-colors">
+                <Instagram className="h-4 w-4" />
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90">
-            Ougargvelov namaк <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-          <div className="flex gap-3">
-            <a href="#" className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors text-sm">
-              f
-            </a>
-            <a href="#" className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors text-sm">
-              𝕏
-            </a>
-          </div>
-        </div>
-
-        <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-xs text-muted-foreground">
-            Боlor iravunknere partsagvadz en | ©
+            © Բոլոր իրավունքները պաշտպանված են
           </p>
           <p className="text-xs text-muted-foreground">
-            2026 © DX Soft Бroup d.PK
+            2026 «ՕՄՆԻ ԴԻ ԵՔՍ Ակադեմիա» ՍՊԸ
           </p>
         </div>
       </div>
