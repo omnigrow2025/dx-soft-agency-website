@@ -1,10 +1,9 @@
-import { useEffect, useState, createContext, useContext } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import type { Session, User } from "@supabase/supabase-js";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { apiFetch, getToken, setToken } from "@/lib/api";
 
 interface AuthContextType {
-  session: Session | null;
-  user: User | null;
+  token: string | null;
+  user: { email?: string } | null;
   isAdmin: boolean;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
@@ -19,57 +18,90 @@ export const useAuth = () => {
   return ctx;
 };
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+// Login endpoint guesses — first one to succeed wins. The Railway API's
+// auth path wasn't documented at integration time, so we try a few common
+// shapes. If your API uses a different path, update LOGIN_CANDIDATES.
+const LOGIN_CANDIDATES = [
+  "/api/auth/login",
+  "/api/auth/sign-in",
+  "/api/admin/auth/login",
+  "/api/admin/login",
+  "/api/login",
+];
 
-  const checkAdmin = async (userId: string) => {
-    const { data } = await supabase.rpc("has_role", {
-      _user_id: userId,
-      _role: "admin",
-    } as never);
-    setIsAdmin(!!data);
-  };
+function decodeJwtEmail(token: string): string | undefined {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.email || payload.sub;
+  } catch {
+    return undefined;
+  }
+}
+
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [token, setTokenState] = useState<string | null>(getToken());
+  const [user, setUser] = useState<{ email?: string } | null>(
+    token ? { email: decodeJwtEmail(token) } : null
+  );
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          await checkAdmin(session.user.id);
-        } else {
-          setIsAdmin(false);
+    if (token) setUser({ email: decodeJwtEmail(token) });
+    else setUser(null);
+  }, [token]);
+
+  const signIn = useCallback(async (email: string, password: string) => {
+    setLoading(true);
+    let lastErr: Error | null = null;
+    try {
+      for (const path of LOGIN_CANDIDATES) {
+        try {
+          const res = await apiFetch<{
+            token?: string;
+            accessToken?: string;
+            access_token?: string;
+            data?: { token?: string; accessToken?: string };
+          }>(path, {
+            method: "POST",
+            auth: false,
+            body: JSON.stringify({ email, password }),
+          });
+          const t =
+            res.token ||
+            res.accessToken ||
+            res.access_token ||
+            res.data?.token ||
+            res.data?.accessToken;
+          if (t) {
+            setToken(t);
+            setTokenState(t);
+            return;
+          }
+          lastErr = new Error(`Login at ${path} returned no token`);
+        } catch (e) {
+          // 404 → try next candidate; other errors → remember and continue
+          lastErr = e as Error;
+          if ((e as { status?: number }).status && (e as { status?: number }).status !== 404) {
+            // Real auth error (e.g. 401) — surface immediately
+            throw e;
+          }
         }
-        setLoading(false);
       }
-    );
-
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await checkAdmin(session.user.id);
-      }
+      throw lastErr ?? new Error("No login endpoint matched");
+    } finally {
       setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    }
   }, []);
 
-  const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-  };
-
-  const signOut = async () => {
-    await supabase.auth.signOut();
-  };
+  const signOut = useCallback(async () => {
+    setToken(null);
+    setTokenState(null);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ session, user, isAdmin, loading, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ token, user, isAdmin: !!token, loading, signIn, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
