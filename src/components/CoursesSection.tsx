@@ -15,7 +15,9 @@ const CoursesSection = () => {
     <section id="courses" className="py-16 md:py-24 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10 gap-4">
-          <h2 className="text-2xl md:text-3xl font-bold">Դասընթացներ</h2>
+          <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight">
+            Հասանելի <span className="text-accent-lime">Դասընթացներ</span>
+          </h2>
         </div>
 
         {isLoading ? (
