@@ -2,24 +2,24 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navLinks = [
-  { label: "Մdelays Մasін", href: "#about" },
-  { label: "Դasunths", href: "#courses" },
-  { label: "Մasnagets", href: "#specialists" },
+  { label: "Մեր մասին", href: "#about" },
+  { label: "Դասընթացներ", href: "#courses" },
+  { label: "Մասնագետներ", href: "#specialists" },
   { label: "Q&A", href: "#faq" },
-  { label: "Կap", href: "#contact" },
+  { label: "Կապ", href: "#contact" },
 ];
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-background border-b border-border">
+    <header className="sticky top-0 z-50 bg-background/90 backdrop-blur border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <a href="#" className="flex items-center gap-1">
-          <span className="text-2xl font-black tracking-tight">
-            OMNID<span className="text-primary">X</span>
+        <a href="#" className="flex flex-col leading-none">
+          <span className="text-2xl font-black tracking-tight text-foreground">
+            OMNI<span className="text-accent-lime">DX</span>
           </span>
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground leading-tight block">
+          <span className="text-[9px] uppercase tracking-[0.25em] text-muted-foreground mt-0.5">
             ACADEMY
           </span>
         </a>
@@ -29,7 +29,7 @@ const Header = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              className="text-sm font-medium text-foreground hover:text-accent-lime transition-colors"
             >
               {link.label}
             </a>
@@ -39,6 +39,7 @@ const Header = () => {
         <button
           className="md:hidden p-2"
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -50,7 +51,7 @@ const Header = () => {
             <a
               key={link.href}
               href={link.href}
-              className="block text-sm font-medium text-foreground hover:text-primary"
+              className="block text-sm font-medium text-foreground hover:text-accent-lime"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}
