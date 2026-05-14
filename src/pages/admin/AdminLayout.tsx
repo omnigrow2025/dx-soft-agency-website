@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Users, BookOpen, MessageSquare, Shield, LogOut, LayoutDashboard } from "lucide-react";
+import { Users, BookOpen, MessageSquare, Shield, LogOut, LayoutDashboard, Columns2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -10,6 +10,7 @@ const links = [
   { to: "/admin/courses", label: "Courses", icon: BookOpen },
   { to: "/admin/users", label: "Subscribers", icon: Shield },
   { to: "/admin/support", label: "Support", icon: MessageSquare },
+  { to: "/admin/design-sync", label: "Design Sync", icon: Columns2 },
 ];
 
 const AdminLayout = () => {
