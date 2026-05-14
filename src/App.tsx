@@ -12,6 +12,7 @@ import AdminTeachers from "./pages/admin/AdminTeachers";
 import AdminCourses from "./pages/admin/AdminCourses";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminSupport from "./pages/admin/AdminSupport";
+import AdminDesignSync from "./pages/admin/AdminDesignSync";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="courses" element={<AdminCourses />} />
               <Route path="users" element={<AdminUsers />} />
               <Route path="support" element={<AdminSupport />} />
+              <Route path="design-sync" element={<AdminDesignSync />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
