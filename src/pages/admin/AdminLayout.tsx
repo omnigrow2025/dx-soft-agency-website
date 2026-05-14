@@ -8,7 +8,7 @@ const links = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/teachers", label: "Teachers", icon: Users },
   { to: "/admin/courses", label: "Courses", icon: BookOpen },
-  { to: "/admin/users", label: "Users", icon: Shield },
+  { to: "/admin/users", label: "Subscribers", icon: Shield },
   { to: "/admin/support", label: "Support", icon: MessageSquare },
 ];
 

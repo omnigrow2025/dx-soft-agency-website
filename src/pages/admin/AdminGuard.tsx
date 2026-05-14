@@ -3,7 +3,7 @@ import AdminLogin from "./AdminLogin";
 import AdminLayout from "./AdminLayout";
 
 const AdminGuard = () => {
-  const { user, isAdmin, loading } = useAuth();
+  const { isAdmin, loading } = useAuth();
 
   if (loading) {
     return (
@@ -13,7 +13,7 @@ const AdminGuard = () => {
     );
   }
 
-  if (!user || !isAdmin) {
+  if (!isAdmin) {
     return <AdminLogin />;
   }
 

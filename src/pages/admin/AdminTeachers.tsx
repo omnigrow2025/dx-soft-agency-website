@@ -1,27 +1,16 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { apiFetch, unwrap, type Teacher } from "@/lib/api";
 
-type Teacher = {
-  id: string;
-  name: string;
-  position: string | null;
-  bio: string | null;
-  photo_url: string | null;
-  email: string | null;
-  phone: string | null;
-  is_active: boolean;
-};
-
-const emptyForm = { name: "", position: "", bio: "", photo_url: "", email: "", phone: "" };
+const emptyForm = { name: "", lastName: "", bio: "", description: "", imageUrl: "", email: "", phoneNumber: "" };
 
 const AdminTeachers = () => {
   const qc = useQueryClient();
@@ -31,22 +20,15 @@ const AdminTeachers = () => {
 
   const { data: teachers, isLoading } = useQuery({
     queryKey: ["admin-teachers"],
-    queryFn: async () => {
-      const { data, error } = await supabase.from("teachers").select("*").order("created_at", { ascending: false });
-      if (error) throw error;
-      return data as Teacher[];
-    },
+    queryFn: async () => unwrap<Teacher[]>(await apiFetch("/api/teachers")),
   });
 
   const saveMutation = useMutation({
     mutationFn: async () => {
-      const payload = { ...form, is_active: true };
       if (editing) {
-        const { error } = await supabase.from("teachers").update(payload).eq("id", editing);
-        if (error) throw error;
+        await apiFetch(`/api/teachers/${editing}`, { method: "PUT", body: JSON.stringify(form) });
       } else {
-        const { error } = await supabase.from("teachers").insert(payload);
-        if (error) throw error;
+        await apiFetch("/api/teachers", { method: "POST", body: JSON.stringify(form) });
       }
     },
     onSuccess: () => {
@@ -59,8 +41,7 @@ const AdminTeachers = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("teachers").delete().eq("id", id);
-      if (error) throw error;
+      await apiFetch(`/api/teachers/${id}`, { method: "DELETE" });
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["admin-teachers"] });
@@ -78,11 +59,12 @@ const AdminTeachers = () => {
   const openEdit = (t: Teacher) => {
     setForm({
       name: t.name,
-      position: t.position ?? "",
+      lastName: t.lastName ?? "",
       bio: t.bio ?? "",
-      photo_url: t.photo_url ?? "",
+      description: t.description ?? "",
+      imageUrl: t.imageUrl ?? "",
       email: t.email ?? "",
-      phone: t.phone ?? "",
+      phoneNumber: t.phoneNumber ?? "",
     });
     setEditing(t.id);
     setOpen(true);
@@ -96,17 +78,20 @@ const AdminTeachers = () => {
           <DialogTrigger asChild>
             <Button><Plus className="h-4 w-4 mr-2" />Add Teacher</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{editing ? "Edit Teacher" : "Add Teacher"}</DialogTitle>
             </DialogHeader>
             <form onSubmit={(e) => { e.preventDefault(); saveMutation.mutate(); }} className="space-y-4">
-              <Input placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-              <Input placeholder="Position" value={form.position} onChange={(e) => setForm({ ...form, position: e.target.value })} />
-              <Input placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-              <Input placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-              <Input placeholder="Photo URL" value={form.photo_url} onChange={(e) => setForm({ ...form, photo_url: e.target.value })} />
-              <Textarea placeholder="Bio" value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} />
+              <div className="grid grid-cols-2 gap-3">
+                <Input placeholder="First name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+                <Input placeholder="Last name" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} />
+              </div>
+              <Input placeholder="Email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <Input placeholder="Phone" value={form.phoneNumber} onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })} />
+              <Input placeholder="Image URL / Cloudinary id" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} />
+              <Input placeholder="Short bio (e.g. Business Trainer)" value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} />
+              <Textarea placeholder="Description" rows={5} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
               <Button type="submit" className="w-full" disabled={saveMutation.isPending}>
                 {saveMutation.isPending ? "Saving..." : "Save"}
               </Button>
@@ -121,7 +106,7 @@ const AdminTeachers = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
-                <TableHead>Position</TableHead>
+                <TableHead>Bio</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Phone</TableHead>
                 <TableHead className="w-24">Actions</TableHead>
@@ -130,19 +115,19 @@ const AdminTeachers = () => {
             <TableBody>
               {isLoading ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Loading...</TableCell></TableRow>
-              ) : teachers?.length === 0 ? (
+              ) : !teachers?.length ? (
                 <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No teachers yet</TableCell></TableRow>
               ) : (
-                teachers?.map((t) => (
+                teachers.map((t) => (
                   <TableRow key={t.id}>
-                    <TableCell className="font-medium">{t.name}</TableCell>
-                    <TableCell>{t.position}</TableCell>
+                    <TableCell className="font-medium">{t.name} {t.lastName}</TableCell>
+                    <TableCell className="text-muted-foreground">{t.bio}</TableCell>
                     <TableCell>{t.email}</TableCell>
-                    <TableCell>{t.phone}</TableCell>
+                    <TableCell>{t.phoneNumber}</TableCell>
                     <TableCell>
                       <div className="flex gap-1">
                         <Button variant="ghost" size="icon" onClick={() => openEdit(t)}><Pencil className="h-4 w-4" /></Button>
-                        <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(t.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                        <Button variant="ghost" size="icon" onClick={() => { if (confirm("Delete?")) deleteMutation.mutate(t.id); }}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                       </div>
                     </TableCell>
                   </TableRow>
