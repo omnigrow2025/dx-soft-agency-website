@@ -6,39 +6,39 @@
 
 @layer base {
   :root {
-    /* OmniDX Academy palette — cream bg, deep forest green primary, lime accent */
-    --background: 60 25% 97%;
-    --foreground: 160 15% 12%;
+    /* Vision Business Academy — deep navy + gold */
+    --background: 217 68% 14%;
+    --foreground: 0 0% 100%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 160 15% 12%;
+    --card: 217 60% 18%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 160 15% 12%;
+    --popover: 217 60% 18%;
+    --popover-foreground: 0 0% 100%;
 
-    /* Deep forest green (CTA buttons) */
-    --primary: 155 45% 14%;
-    --primary-foreground: 60 25% 97%;
+    /* Gold (primary CTA) */
+    --primary: 46 65% 52%;
+    --primary-foreground: 217 68% 14%;
 
-    --secondary: 60 20% 94%;
-    --secondary-foreground: 160 15% 12%;
+    --secondary: 217 55% 22%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 60 15% 94%;
-    --muted-foreground: 160 8% 40%;
+    --muted: 217 40% 25%;
+    --muted-foreground: 220 14% 80%;
 
-    /* Lime green (highlighted text) */
-    --accent: 82 65% 48%;
-    --accent-foreground: 155 45% 14%;
+    /* Gold accent */
+    --accent: 46 65% 52%;
+    --accent-foreground: 217 68% 14%;
 
-    /* Hero yellow blob */
-    --highlight: 48 95% 60%;
+    /* Gold highlight blob */
+    --highlight: 46 65% 52%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 60 10% 88%;
-    --input: 60 10% 88%;
-    --ring: 155 45% 14%;
+    --border: 217 40% 28%;
+    --input: 217 40% 28%;
+    --ring: 46 65% 52%;
 
     --radius: 0.75rem;
 
