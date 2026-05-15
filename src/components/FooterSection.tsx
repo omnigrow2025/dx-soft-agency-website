@@ -42,7 +42,7 @@ const FooterSection = () => {
             © Բոլոր իրավունքները պաշտպանված են
           </p>
           <p className="text-xs text-muted-foreground">
-            2026 «ՕՄՆԻ ԴԻ ԵՔՍ Ակադեմիա» ՍՊԸ
+            2026 Vision Business Academy
           </p>
         </div>
       </div>
