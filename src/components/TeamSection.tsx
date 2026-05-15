@@ -1,7 +1,5 @@
-import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
 import { apiFetch, resolveImage, unwrap, type Teacher } from "@/lib/api";
 
 const TeamSection = () => {
