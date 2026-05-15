@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { apiFetch, resolveImage, unwrap, type Teacher } from "@/lib/api";
@@ -21,8 +22,10 @@ const TeamSection = () => {
               Փորձառու դասախոսներ, որոնք գիտեն թե ինչպես փոխանցել գիտելիքները։
             </p>
             <div className="flex items-center gap-3">
-              <Button variant="outline" className="rounded-full">
-                Տեսնել մասնագետներին <ArrowRight className="ml-2 h-4 w-4" />
+              <Button asChild variant="outline" className="rounded-full">
+                <Link to="/teachers">
+                  Տեսնել մասնագետներին <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </div>
           </div>
