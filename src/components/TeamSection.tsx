@@ -21,13 +21,6 @@ const TeamSection = () => {
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
               Փորձառու դասախոսներ, որոնք գիտեն թե ինչպես փոխանցել գիտելիքները։
             </p>
-            <div className="flex items-center gap-3">
-              <Button asChild variant="outline" className="rounded-full">
-                <Link to="/teachers">
-                  Տեսնել մասնագետներին <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
           </div>
 
           {isLoading ? (
@@ -42,8 +35,12 @@ const TeamSection = () => {
           ) : (
             <div className="grid grid-cols-3 gap-4">
               {team?.slice(0, 6).map((member) => (
-                <div key={member.id} className="text-center space-y-3">
-                  <div className="w-24 h-24 md:w-28 md:h-28 mx-auto rounded-2xl overflow-hidden bg-muted">
+                <Link
+                  to={`/teachers/${member.id}`}
+                  key={member.id}
+                  className="text-center space-y-3 group"
+                >
+                  <div className="w-24 h-24 md:w-28 md:h-28 mx-auto rounded-2xl overflow-hidden bg-muted transition-transform group-hover:scale-105">
                     <img
                       src={resolveImage(member.imageUrl)}
                       alt={`${member.name} ${member.lastName ?? ""}`}
@@ -52,12 +49,12 @@ const TeamSection = () => {
                     />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold">
+                    <p className="text-xs font-semibold group-hover:text-accent-lime transition-colors">
                       {member.name} {member.lastName ?? ""}
                     </p>
                     <p className="text-[10px] text-muted-foreground line-clamp-2">{member.bio}</p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
