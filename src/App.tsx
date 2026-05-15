@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index.tsx";
+import Teachers from "./pages/Teachers.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import AdminGuard from "./pages/admin/AdminGuard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -25,6 +26,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/teachers" element={<Teachers />} />
             <Route path="/admin" element={<AdminGuard />}>
               <Route index element={<AdminDashboard />} />
               <Route path="teachers" element={<AdminTeachers />} />
