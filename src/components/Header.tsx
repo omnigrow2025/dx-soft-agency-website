@@ -1,27 +1,30 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
-
-const navLinks = [
-  { label: "Մեր մասին", href: "#about" },
-  { label: "Դասընթացներ", href: "#courses" },
-  { label: "Մասնագետներ", href: "#specialists" },
-  { label: "Q&A", href: "#faq" },
-  { label: "Կապ", href: "#contact" },
-];
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useI18n } from "@/hooks/useI18n";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { t } = useI18n();
+
+  const navLinks = [
+    { label: t("nav.about", "Մեր մասին"), href: "#about" },
+    { label: t("nav.courses", "Դասընթացներ"), href: "#courses" },
+    { label: t("nav.specialists", "Մասնագետներ"), href: "#specialists" },
+    { label: t("nav.faq", "Q&A"), href: "#faq" },
+    { label: t("nav.contact", "Կապ"), href: "#contact" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-background/85 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
         <a href="#" className="flex flex-col leading-none">
           <span className="font-serif-display text-2xl md:text-[26px] text-foreground tracking-tight">
-            Vision
+            {t("brand.name", "Vision")}
           </span>
           <span className="eyebrow text-[9px] mt-1 text-muted-foreground">
-            Business Academy
+            {t("brand.tagline", "Business Academy")}
           </span>
         </a>
 
@@ -35,10 +38,12 @@ const Header = () => {
               {link.label}
             </a>
           ))}
+          <LanguageSwitcher />
           <ThemeToggle />
         </nav>
 
         <div className="md:hidden flex items-center gap-1">
+          <LanguageSwitcher />
           <ThemeToggle />
           <button
             className="p-2"
