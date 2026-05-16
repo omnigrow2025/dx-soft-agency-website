@@ -7,30 +7,29 @@ const directions: [string, string][] = [
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-16 md:py-24">
+    <section id="about" className="py-16 md:py-28 border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          <div className="relative h-72 md:h-[28rem]">
-            <div
-              className="absolute inset-6 bg-highlight rounded-[40%_60%_55%_45%/50%_45%_55%_50%]"
-              aria-hidden="true"
-            />
-            <img
-              src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=700&h=600&fit=crop"
-              alt="OmniDX Academy team"
-              className="relative w-full h-full object-cover rounded-2xl"
-            />
+        <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
+          <div className="md:col-span-5 relative md:sticky md:top-28">
+            <p className="eyebrow mb-4">Մեր մասին</p>
+            <h2 className="font-serif-display text-4xl md:text-5xl leading-tight text-foreground mb-6">
+              Նոր սերնդի <em className="text-accent not-italic">միջազգային</em> կրթական հարթակ։
+            </h2>
+            <div className="relative aspect-[4/5] rounded-md overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=700&h=900&fit=crop"
+                alt="Academy team"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
 
-          <div className="space-y-6">
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight">
-              Մեր <span className="text-accent-lime">Մասին</span>
-            </h2>
-            <div className="space-y-4 text-sm md:text-base text-muted-foreground leading-relaxed">
+          <div className="md:col-span-7 space-y-8 md:pt-12">
+            <div className="space-y-4 text-base text-muted-foreground leading-relaxed">
               <p>
-                <strong className="text-foreground">OMNI GROW LLC</strong>-ն և{" "}
-                <strong className="text-foreground">DX Group Ltd</strong>-ն համատեղ ստեղծել են{" "}
-                <strong className="text-foreground">OmniDX Academy</strong>-ն՝ նոր սերնդի
+                <strong className="text-foreground font-medium">OMNI GROW LLC</strong>-ն և{" "}
+                <strong className="text-foreground font-medium">DX Group Ltd</strong>-ն համատեղ ստեղծել են{" "}
+                <strong className="text-foreground font-medium">OmniDX Academy</strong>-ն՝ նոր սերնդի
                 միջազգային կրթական հարթակ, որի նպատակն է պատրաստել մասնագետների և
                 ձեռնարկատերերի, ովքեր կկարողանան հաջողել ժամանակակից, արագ փոփոխվող
                 տնտեսությունում։
@@ -41,17 +40,18 @@ const AboutSection = () => {
               </p>
             </div>
 
-            <div className="pt-2">
-              <h3 className="text-foreground font-semibold mb-3">
-                Կրթական հիմնական ուղղություններն են․
-              </h3>
-              <ul className="space-y-3">
-                {directions.map(([title, desc]) => (
-                  <li key={title} className="flex gap-3">
-                    <span className="mt-1.5 h-2 w-2 rounded-full bg-accent shrink-0" />
-                    <p className="text-sm text-muted-foreground">
-                      <strong className="text-foreground">{title}</strong> — {desc}
-                    </p>
+            <div className="pt-6 border-t border-border">
+              <p className="eyebrow mb-6">Կրթական ուղղություններ</p>
+              <ul className="divide-y divide-border">
+                {directions.map(([title, desc], i) => (
+                  <li key={title} className="py-5 grid grid-cols-[2rem_1fr] gap-4 items-start">
+                    <span className="font-serif-display text-accent text-lg">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h3 className="font-serif-display text-xl text-foreground mb-1">{title}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+                    </div>
                   </li>
                 ))}
               </ul>
