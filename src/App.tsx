@@ -7,6 +7,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/hooks/useTheme";
 import Index from "./pages/Index.tsx";
 import TeacherDetail from "./pages/TeacherDetail.tsx";
+import CourseDetail from "./pages/CourseDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import AdminGuard from "./pages/admin/AdminGuard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -29,6 +30,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/teachers/:id" element={<TeacherDetail />} />
+            <Route path="/courses/:id" element={<CourseDetail />} />
             <Route path="/admin" element={<AdminGuard />}>
               <Route index element={<AdminDashboard />} />
               <Route path="teachers" element={<AdminTeachers />} />

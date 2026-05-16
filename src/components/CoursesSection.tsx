@@ -1,5 +1,6 @@
 import { ArrowRight, Clock, BarChart, Tag } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { apiFetch, resolveImage, unwrap, type Course } from "@/lib/api";
 
@@ -73,10 +74,19 @@ const CoursesSection = () => {
                         {course.price.toLocaleString()} <span className="text-xs text-muted-foreground">{course.currency ?? ""}</span>
                       </span>
                     ) : <span />}
-                    <Button size="sm" variant="ghost" className="text-accent hover:text-accent hover:bg-accent/10 -mr-2">
-                      Իմանալ ավելին <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                    <Button asChild size="sm" variant="ghost" className="text-accent hover:text-accent hover:bg-accent/10 -mr-2">
+                      <Link to={`/courses/${course.id}`}>
+                        Իմանալ ավելին <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                      </Link>
                     </Button>
                   </div>
+                  <Button
+                    asChild
+                    size="sm"
+                    className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
+                  >
+                    <Link to="/#contact">Գրանցվել</Link>
+                  </Button>
                 </div>
               </article>
             ))}
