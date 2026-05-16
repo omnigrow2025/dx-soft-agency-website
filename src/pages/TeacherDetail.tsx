@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import FooterSection from "@/components/FooterSection";
 import { Button } from "@/components/ui/button";
 import { apiFetch, resolveImage, unwrap, type Teacher, type Course } from "@/lib/api";
+import LoadingScreen from "@/components/LoadingScreen";
 
 type TeacherWithCourses = Teacher & { courses?: Course[] };
 
@@ -42,16 +43,7 @@ const TeacherDetail = () => {
       <Header />
       <main className="flex-1">
         {isLoading ? (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div className="grid md:grid-cols-[1fr_1.2fr] gap-10">
-              <div className="aspect-[3/4] rounded-md bg-muted animate-pulse" />
-              <div className="space-y-4">
-                <div className="h-10 bg-muted rounded animate-pulse w-2/3" />
-                <div className="h-4 bg-muted rounded animate-pulse w-1/3" />
-                <div className="h-32 bg-muted rounded animate-pulse" />
-              </div>
-            </div>
-          </div>
+          <LoadingScreen />
         ) : isError || !teacher ? (
           <div className="max-w-3xl mx-auto px-4 py-24 text-center">
             <p className="text-muted-foreground mb-6">Մասնագետը չի գտնվել։</p>
