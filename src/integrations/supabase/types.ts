@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      content_translations: {
+        Row: {
+          entity_id: string
+          entity_type: string
+          field: string
+          id: string
+          locale: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          entity_id: string
+          entity_type: string
+          field: string
+          id?: string
+          locale: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          entity_id?: string
+          entity_type?: string
+          field?: string
+          id?: string
+          locale?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_translations_locale_fkey"
+            columns: ["locale"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       courses: {
         Row: {
           category: string | null
@@ -56,6 +94,36 @@ export type Database = {
           schedule?: string | null
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      languages: {
+        Row: {
+          code: string
+          created_at: string
+          is_active: boolean
+          is_default: boolean
+          name: string
+          native_name: string | null
+          sort_order: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          is_active?: boolean
+          is_default?: boolean
+          name: string
+          native_name?: string | null
+          sort_order?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          is_active?: boolean
+          is_default?: boolean
+          name?: string
+          native_name?: string | null
+          sort_order?: number
         }
         Relationships: []
       }
@@ -130,6 +198,38 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      ui_translations: {
+        Row: {
+          id: string
+          key: string
+          locale: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          id?: string
+          key: string
+          locale: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          id?: string
+          key?: string
+          locale?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ui_translations_locale_fkey"
+            columns: ["locale"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
       }
       user_roles: {
         Row: {
