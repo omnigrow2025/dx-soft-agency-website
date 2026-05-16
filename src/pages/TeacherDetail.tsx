@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ArrowUpRight, Mail, Phone, Clock, BarChart, Tag } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowLeft, ArrowUpRight, Clock, BarChart, Tag } from "lucide-react";
 import Header from "@/components/Header";
 import FooterSection from "@/components/FooterSection";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,11 @@ type TeacherWithCourses = Teacher & { courses?: Course[] };
 const formatPrice = (price?: number | null, currency?: string | null) => {
   if (price == null) return "";
   return `${price.toLocaleString()} ${currency ?? "AMD"}`;
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
 };
 
 const TeacherDetail = () => {
@@ -66,7 +72,12 @@ const TeacherDetail = () => {
                 </Link>
 
                 <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] gap-8 md:gap-12 items-start">
-                  <div className="relative aspect-[3/4] rounded-md overflow-hidden bg-muted">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    className="relative aspect-[3/4] rounded-md overflow-hidden bg-muted"
+                  >
                     <img
                       src={resolveImage(teacher.imageUrl)}
                       alt={`${teacher.name} ${teacher.lastName ?? ""}`}
@@ -75,37 +86,35 @@ const TeacherDetail = () => {
                         (e.target as HTMLImageElement).src = "/placeholder.svg";
                       }}
                     />
-                  </div>
+                  </motion.div>
 
-                  <div className="space-y-6 md:pt-4">
-                    <p className="eyebrow">Մասնագետ</p>
-                    <h1 className="font-serif-display text-4xl md:text-6xl leading-[1.05] text-foreground">
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ staggerChildren: 0.12, delayChildren: 0.15 }}
+                    className="space-y-6 md:pt-4"
+                  >
+                    <motion.p variants={fadeUp} transition={{ duration: 0.6 }} className="eyebrow">
+                      Մասնագետ
+                    </motion.p>
+                    <motion.h1
+                      variants={fadeUp}
+                      transition={{ duration: 0.7 }}
+                      className="font-serif-display text-4xl md:text-6xl leading-[1.05] text-foreground"
+                    >
                       {teacher.name}{" "}
                       <em className="text-accent not-italic">{teacher.lastName ?? ""}</em>
-                    </h1>
+                    </motion.h1>
                     {teacher.bio && (
-                      <p className="text-base md:text-lg text-accent font-medium">{teacher.bio}</p>
+                      <motion.p
+                        variants={fadeUp}
+                        transition={{ duration: 0.6 }}
+                        className="text-base md:text-lg text-accent font-medium"
+                      >
+                        {teacher.bio}
+                      </motion.p>
                     )}
-
-                    <div className="flex flex-wrap gap-3 pt-2">
-                      {teacher.email && (
-                        <a
-                          href={`mailto:${teacher.email}`}
-                          className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-border hover:border-accent hover:text-accent transition-colors"
-                        >
-                          <Mail className="h-4 w-4" /> {teacher.email}
-                        </a>
-                      )}
-                      {teacher.phoneNumber && (
-                        <a
-                          href={`tel:${teacher.phoneNumber}`}
-                          className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-border hover:border-accent hover:text-accent transition-colors"
-                        >
-                          <Phone className="h-4 w-4" /> {teacher.phoneNumber}
-                        </a>
-                      )}
-                    </div>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </section>
@@ -115,15 +124,26 @@ const TeacherDetail = () => {
               <section className="border-b border-border bg-secondary/40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
                   <div className="grid md:grid-cols-[1fr_2fr] gap-8 md:gap-16">
-                    <div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 24 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ duration: 0.6 }}
+                    >
                       <p className="eyebrow mb-3">Կենսագրություն</p>
                       <h2 className="font-serif-display text-3xl md:text-4xl text-foreground">
                         Մասնագետի <em className="text-accent not-italic">մասին</em>
                       </h2>
-                    </div>
-                    <p className="text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
+                    </motion.div>
+                    <motion.p
+                      initial={{ opacity: 0, y: 24 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ duration: 0.7, delay: 0.1 }}
+                      className="text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line"
+                    >
                       {teacher.description}
-                    </p>
+                    </motion.p>
                   </div>
                 </div>
               </section>
@@ -146,9 +166,14 @@ const TeacherDetail = () => {
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-6">
-                    {teacher.courses.map((course) => (
-                      <article
+                    {teacher.courses.map((course, i) => (
+                      <motion.article
                         key={course.id}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.2 }}
+                        transition={{ duration: 0.6, delay: i * 0.08 }}
+                        whileHover={{ y: -4 }}
                         className="group flex flex-col rounded-md border border-border bg-card overflow-hidden hover:border-accent/60 transition-colors"
                       >
                         <Link to={`/courses/${course.id}`} className="block">
@@ -223,7 +248,7 @@ const TeacherDetail = () => {
                             <Link to="/#contact">Գրանցվել</Link>
                           </Button>
                         </div>
-                      </article>
+                      </motion.article>
                     ))}
                   </div>
                 </div>
