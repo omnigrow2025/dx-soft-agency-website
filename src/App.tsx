@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ThemeProvider } from "@/hooks/useTheme";
+import { I18nProvider } from "@/hooks/useI18n";
 import Index from "./pages/Index.tsx";
 import TeacherDetail from "./pages/TeacherDetail.tsx";
 import CourseDetail from "./pages/CourseDetail.tsx";
@@ -16,12 +17,16 @@ import AdminCourses from "./pages/admin/AdminCourses";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminSupport from "./pages/admin/AdminSupport";
 import AdminDesignSync from "./pages/admin/AdminDesignSync";
+import AdminLanguages from "./pages/admin/AdminLanguages";
+import AdminUITranslations from "./pages/admin/AdminUITranslations";
+import AdminContentTranslations from "./pages/admin/AdminContentTranslations";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
+      <I18nProvider>
       <AuthProvider>
         <TooltipProvider>
         <Toaster />
@@ -38,12 +43,16 @@ const App = () => (
               <Route path="users" element={<AdminUsers />} />
               <Route path="support" element={<AdminSupport />} />
               <Route path="design-sync" element={<AdminDesignSync />} />
+              <Route path="languages" element={<AdminLanguages />} />
+              <Route path="ui-translations" element={<AdminUITranslations />} />
+              <Route path="content-translations" element={<AdminContentTranslations />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
+      </I18nProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
