@@ -22,7 +22,7 @@ export const useAuth = () => {
 // auth path wasn't documented at integration time, so we try a few common
 // shapes. If your API uses a different path, update LOGIN_CANDIDATES.
 const LOGIN_CANDIDATES = [
-  "/api/auth/login",
+  "/api/master-users/login",
   "/api/auth/sign-in",
   "/api/admin/auth/login",
   "/api/admin/login",
@@ -40,9 +40,7 @@ function decodeJwtEmail(token: string): string | undefined {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setTokenState] = useState<string | null>(getToken());
-  const [user, setUser] = useState<{ email?: string } | null>(
-    token ? { email: decodeJwtEmail(token) } : null
-  );
+  const [user, setUser] = useState<{ email?: string } | null>(token ? { email: decodeJwtEmail(token) } : null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -66,12 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             auth: false,
             body: JSON.stringify({ email, password }),
           });
-          const t =
-            res.token ||
-            res.accessToken ||
-            res.access_token ||
-            res.data?.token ||
-            res.data?.accessToken;
+          const t = res.token || res.accessToken || res.access_token || res.data?.token || res.data?.accessToken;
           if (t) {
             setToken(t);
             setTokenState(t);
@@ -99,9 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ token, user, isAdmin: !!token, loading, signIn, signOut }}
-    >
+    <AuthContext.Provider value={{ token, user, isAdmin: !!token, loading, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
