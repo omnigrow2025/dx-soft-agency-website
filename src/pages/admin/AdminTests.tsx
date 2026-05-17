@@ -70,11 +70,20 @@ const AdminTests = () => {
 
   const createTest = async () => {
     if (!newTest.name.trim()) return;
-    const { error } = await supabase.from("tests").insert(newTest);
+    const { data, error } = await supabase.from("tests").insert(newTest).select().single();
     if (error) return toast({ title: "Error", description: error.message, variant: "destructive" });
     setNewTest({ name: "", duration_minutes: 30 });
     toast({ title: "Test created" });
-    load();
+    await load();
+    if (data?.id) {
+      setExpanded(data.id);
+      setQuestions((p) => ({
+        ...p,
+        [data.id]: [
+          { test_id: data.id, question: "", options: ["", ""], correct_option: 0, sort_order: 0, _new: true },
+        ],
+      }));
+    }
   };
 
   const deleteTest = async (id: string) => {
