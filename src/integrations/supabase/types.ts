@@ -199,6 +199,74 @@ export type Database = {
         }
         Relationships: []
       }
+      test_questions: {
+        Row: {
+          correct_option: number
+          created_at: string
+          id: string
+          options: Json
+          question: string
+          sort_order: number
+          test_id: string
+          updated_at: string
+        }
+        Insert: {
+          correct_option?: number
+          created_at?: string
+          id?: string
+          options?: Json
+          question: string
+          sort_order?: number
+          test_id: string
+          updated_at?: string
+        }
+        Update: {
+          correct_option?: number
+          created_at?: string
+          id?: string
+          options?: Json
+          question?: string
+          sort_order?: number
+          test_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_questions_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tests: {
+        Row: {
+          created_at: string
+          duration_minutes: number
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       ui_translations: {
         Row: {
           id: string
