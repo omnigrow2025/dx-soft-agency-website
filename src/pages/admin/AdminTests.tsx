@@ -210,6 +210,17 @@ const AdminTests = () => {
                     )
                   }
                 />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url = `${window.location.origin}/tests/${t.id}`;
+                    navigator.clipboard.writeText(url);
+                    toast({ title: "Link copied", description: url });
+                  }}
+                >
+                  <LinkIcon className="h-4 w-4" />
+                </Button>
                 <Button variant="outline" size="sm" onClick={() => updateTest(t)}>
                   <Save className="h-4 w-4" />
                 </Button>
