@@ -199,6 +199,56 @@ export type Database = {
         }
         Relationships: []
       }
+      test_attempts: {
+        Row: {
+          answers: Json
+          completed_at: string | null
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          score: number
+          started_at: string
+          test_id: string
+          total: number
+        }
+        Insert: {
+          answers?: Json
+          completed_at?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          score?: number
+          started_at?: string
+          test_id: string
+          total?: number
+        }
+        Update: {
+          answers?: Json
+          completed_at?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          score?: number
+          started_at?: string
+          test_id?: string
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_attempts_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       test_questions: {
         Row: {
           correct_option: number
