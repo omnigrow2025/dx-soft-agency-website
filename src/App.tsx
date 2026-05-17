@@ -20,6 +20,7 @@ import AdminDesignSync from "./pages/admin/AdminDesignSync";
 import AdminLanguages from "./pages/admin/AdminLanguages";
 import AdminUITranslations from "./pages/admin/AdminUITranslations";
 import AdminContentTranslations from "./pages/admin/AdminContentTranslations";
+import AdminTests from "./pages/admin/AdminTests";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="languages" element={<AdminLanguages />} />
               <Route path="ui-translations" element={<AdminUITranslations />} />
               <Route path="content-translations" element={<AdminContentTranslations />} />
+              <Route path="tests" element={<AdminTests />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
