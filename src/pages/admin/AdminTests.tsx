@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { Plus, Trash2, Save, ChevronDown, ChevronRight } from "lucide-react";
+import { Plus, Trash2, Save, ChevronDown, ChevronRight, Link as LinkIcon } from "lucide-react";
 
 type Test = {
   id: string;
@@ -210,6 +210,17 @@ const AdminTests = () => {
                     )
                   }
                 />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url = `${window.location.origin}/tests/${t.id}`;
+                    navigator.clipboard.writeText(url);
+                    toast({ title: "Link copied", description: url });
+                  }}
+                >
+                  <LinkIcon className="h-4 w-4" />
+                </Button>
                 <Button variant="outline" size="sm" onClick={() => updateTest(t)}>
                   <Save className="h-4 w-4" />
                 </Button>
