@@ -21,6 +21,8 @@ import AdminLanguages from "./pages/admin/AdminLanguages";
 import AdminUITranslations from "./pages/admin/AdminUITranslations";
 import AdminContentTranslations from "./pages/admin/AdminContentTranslations";
 import AdminTests from "./pages/admin/AdminTests";
+import AdminTestAttempts from "./pages/admin/AdminTestAttempts";
+import TakeTest from "./pages/TakeTest";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +39,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/teachers/:id" element={<TeacherDetail />} />
             <Route path="/courses/:id" element={<CourseDetail />} />
+            <Route path="/tests/:id" element={<TakeTest />} />
             <Route path="/admin" element={<AdminGuard />}>
               <Route index element={<AdminDashboard />} />
               <Route path="teachers" element={<AdminTeachers />} />
@@ -48,6 +51,7 @@ const App = () => (
               <Route path="ui-translations" element={<AdminUITranslations />} />
               <Route path="content-translations" element={<AdminContentTranslations />} />
               <Route path="tests" element={<AdminTests />} />
+              <Route path="test-attempts" element={<AdminTestAttempts />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
